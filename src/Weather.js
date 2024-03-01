@@ -2,71 +2,122 @@ import { useState } from "react";
 import React from "react";
 import "./Weather.css";
 import axios from "axios";
+import ClockLoader from "react-spinners/ClockLoader";
 
-export default function Form() {
-  const [city, setCity] = useState('')
-  const [weather, setWeather] = useState({}) 
+export default function Weather(props) {
+  const [city, setCity] = useState(props.defaultCity);
+  const [weather, setWeather] = useState({});
 
-  function displayWeather(res){
-    console.log(res.data)
+  function displayWeather(res) {
     setWeather({
-      temperature: Math.round(res.data.main.temp),
-      city: res.data.name, 
-      humidity: res.data.main.humidity,
+      ready: true,
+      temperature: Math.round(res.data.temperature.current),
+      city: res.data.city,
+      humidity: res.data.temperature.humidity,
       wind: Math.round(res.data.wind.speed),
-      description: res.data.weather[0].description,
-      img: `http://openweathermap.org/img/wn/${res.data.weather[0].icon}@2x.png`
-    })
+      description: res.data.condition.description,
+      img: res.data.condition.icon_url,
+      date: displayDate(new Date(res.data.time * 1000)),
+    });
   }
 
-  function submitInput(event){
-    event.preventDefault()
-    let appid = "bd5b4461863eddaa6ced0a0a67989e0a";
-    let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${appid}&units=metric`;
-    let apiForecast =`https://api.openweathermap.org/data/2.5/forecast/daily?q=${city}&appid=${appid}`
-    axios.get(apiUrl).then(displayWeather)
+  function search(){
+    let key = "3d051a8309e26fa1a4485c467o137bdt";
+    let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${key}`;
+    axios.get(apiUrl).then(displayWeather);
   }
 
-  function handleInput(event){
-    setCity(event.target.value)
+  function displayDate(date) {
+    let days = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednsday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ];
+
+    let day = days[date.getDay()];
+    let hours = date.getHours();
+    let minutes = date.getMinutes();
+
+    if (hours < 10) {
+      hours = `0${hours}`;
+    }
+    if (minutes < 10) {
+      minutes = `0${minutes}`;
+    }
+
+    return `${day} ${hours}:${minutes}, `;
+  }
+
+  function submitInput(event) {
+    event.preventDefault();
+    search()
+  }
+
+  function handleInput(event) {
+    setCity(event.target.value);
   }
 
   const form = (
-      <form className="search-form" onSubmit={submitInput}>
-        <input
-          type="search"
-          placeholder="Enter a city..."
-          className="form-control shadow-sm"
-          onChange={handleInput}
-        />
-        <input type="submit" value="Search" className="btn shadow-sm" />
-      </form>
-  )
-
-  return (
-    <div className="weather-app">
-      {form}
-      <div className="line"></div>
-      <main>
-        <div>
-          <h1>{weather.city}</h1>
-          <p className="weather-details">
-            <span>{weather.date}</span>
-            <span>{weather.description}</span>
-            <br />
-            Humidity: <strong>{weather.humidity}%</strong>,
-            Wind: <strong>{weather.wind}km/h</strong>
-          </p>
-        </div>
-        <img src={weather.img} alt="current weather image" />
-        <div>
-          <span className="temperature">
-            {weather.temperature}
-          </span>
-          <span className="units">°C</span>
-        </div>
-      </main>
-
-    </div>
+    <form className="search-form" onSubmit={submitInput}>
+      <input
+        type="search"
+        placeholder="Enter a city..."
+        className="form-control shadow-sm"
+        onChange={handleInput}
+        autoFocus="on"
+      />
+      <input type="submit" value="Search" className="btn shadow-sm" />
+    </form>
   );
+
+  if (weather.ready) {
+    return (
+      <div className="weather-app">
+        {form}
+        <div className="line"></div>
+        <main>
+          <div>
+            <h1>{weather.city}</h1>
+            <p className="weather-details">
+              <span>{weather.date}</span>
+              <span>{weather.description}</span>
+              <br />
+              Humidity: <strong>{weather.humidity}%</strong>, 
+              Wind: <strong>{weather.wind}km/h</strong>
+            </p>
+          </div>
+          <img src={weather.img} alt="current weather image" />
+          <div>
+            <span className="temperature">{weather.temperature}</span>
+            <span className="units">°C</span>
+          </div>
+        </main>
+
+        <footer>
+          <div className="line"></div>
+          <p className="footer-text">
+            The project was created for educational purposes.
+          </p>
+          <p className="footer-text">
+            The information provided may not be accurate.
+          </p>
+        </footer>
+      </div>
+    );
+  } else {
+    search()
+    return (
+      <ClockLoader
+      color="#4a5759"
+      loading="true"
+      size={150}
+      aria-label="Loading Spinner"
+      data-testid="loader"
+    />
+    )
+  }
 }

@@ -11,7 +11,7 @@
 }
 
 .btn {
-  background: #dedbd2!important;
+  background: #dedbd2 !important;
   color: #4a5759;
   margin-left: 5px;
 }
@@ -65,4 +65,47 @@ main {
   margin: 1rem 0;
   opacity: 0.2;
   border-bottom: 1px solid #dedbd2;
+}
+
+.footer-text {
+  color: inherit;
+  opacity: 0.8;
+  font-size: 12px;
+  text-align: center;
+}
+/* 
+footer a {
+  color: #f49cbb;
+}
+
+footer a:hover {
+  text-decoration: none;
+  color: #f49cbb;
+  opacity: 0.5;
+} */
+
+.forecast {
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  margin: 2.5rem 0;
+}
+
+.forecast-day p {
+  opacity: 0.6;
+  font-size: 1.25rem;
+}
+
+.forecast-day img {
+  width: 80%;
+}
+
+.forecast-day span {
+  color: #f49cbb;
+  font-size: 16px;
+  margin: 0 0.5rem;
+}
+
+.forecast-day span:first-child {
+  font-weight: 600;
 }
