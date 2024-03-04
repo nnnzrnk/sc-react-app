@@ -56,10 +56,6 @@ main {
   font-size: 16px;
 }
 
-.emoji {
-  font-size: 84px;
-  margin: 0 auto;
-}
 
 .line {
   margin: 1rem 0;
@@ -108,4 +104,8 @@ footer a:hover {
 
 .forecast-day span:first-child {
   font-weight: 600;
+}
+ 
+.animated-icon {
+  margin: 0 1rem;
 }
