@@ -3,10 +3,11 @@ import React from "react";
 import "./Weather.css";
 import axios from "axios";
 import ClockLoader from "react-spinners/ClockLoader";
+import FormattedDate from "./FormattedDate";
 
 export default function Weather(props) {
   const [city, setCity] = useState(props.defaultCity);
-  const [weather, setWeather] = useState({});
+  const [weather, setWeather] = useState({ ready: false});
 
   function displayWeather(res) {
     setWeather({
@@ -17,7 +18,7 @@ export default function Weather(props) {
       wind: Math.round(res.data.wind.speed),
       description: res.data.condition.description,
       img: res.data.condition.icon_url,
-      date: displayDate(new Date(res.data.time * 1000)),
+      date: new Date(res.data.time * 1000),
     });
   }
 
@@ -25,31 +26,6 @@ export default function Weather(props) {
     let key = "3d051a8309e26fa1a4485c467o137bdt";
     let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${key}`;
     axios.get(apiUrl).then(displayWeather);
-  }
-
-  function displayDate(date) {
-    let days = [
-      "Sunday",
-      "Monday",
-      "Tuesday",
-      "Wednsday",
-      "Thursday",
-      "Friday",
-      "Saturday",
-    ];
-
-    let day = days[date.getDay()];
-    let hours = date.getHours();
-    let minutes = date.getMinutes();
-
-    if (hours < 10) {
-      hours = `0${hours}`;
-    }
-    if (minutes < 10) {
-      minutes = `0${minutes}`;
-    }
-
-    return `${day} ${hours}:${minutes}, `;
   }
 
   function submitInput(event) {
@@ -83,7 +59,7 @@ export default function Weather(props) {
           <div>
             <h1>{weather.city}</h1>
             <p className="weather-details">
-              <span>{weather.date}</span>
+              <span><FormattedDate date={weather.date} /> </span>
               <span>{weather.description}</span>
               <br />
               Humidity: <strong>{weather.humidity}%</strong>, 
@@ -101,8 +77,6 @@ export default function Weather(props) {
           <div className="line"></div>
           <p className="footer-text">
             The project was created for educational purposes.
-          </p>
-          <p className="footer-text">
             The information provided may not be accurate.
           </p>
         </footer>
