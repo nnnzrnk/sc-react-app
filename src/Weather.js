@@ -55,7 +55,9 @@ export default function Weather(props) {
         <div className="line"></div>
 
         <WeatherInfo weather={weather} />
+
         <WeatherForecast coordinates={weather.coordinates}/>
+
 
         <footer>
           <div className="line"></div>

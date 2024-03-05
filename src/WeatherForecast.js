@@ -27,7 +27,7 @@ export default function WeatherForecast(props) {
     return (
       <section className="forecast">
         {forecast.map(function (day, index) {
-          if (index < 6) {
+          if (index < 5) {
             return(
                 <ForecastDay key={index} forecast={day} />
             )
