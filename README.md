@@ -1,7 +1,7 @@
 # Weather App
 
 * was created using React.js
-* fetching data using axiox
+* fetching data using axios
 * users can find information about the weather in any city in the world
 ---
 
