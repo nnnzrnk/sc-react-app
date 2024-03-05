@@ -2,6 +2,7 @@ import React from "react";
 import "./Weather.css";
 import FormattedDate from "./FormattedDate";
 import AnimatedIcons from "./AnimatedIcons";
+import FormattedTemp from "./FormattedTemp";
 
 export default function WeatherInfo(props) {
   return (
@@ -21,11 +22,7 @@ export default function WeatherInfo(props) {
       <div className="animated-icon">
         <AnimatedIcons icon={props.weather.img} />
       </div>
-
-      <div>
-        <span className="temperature">{props.weather.temperature}</span>
-        <span className="units">°C</span>
-      </div>
+      <FormattedTemp celcius={props.weather.temperature} />
     </main>
   );
 }
