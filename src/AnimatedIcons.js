@@ -28,7 +28,7 @@ export default function AnimatedIcons(props) {
       icon={icons[props.icon]}
       color="#ffffff"
       animate={true}
-      
+      size={props.size}
     />
   );
 }

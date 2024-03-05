@@ -4,6 +4,7 @@ import FormattedDate from "./FormattedDate";
 import AnimatedIcons from "./AnimatedIcons";
 import FormattedTemp from "./FormattedTemp";
 
+
 export default function WeatherInfo(props) {
   return (
     <main>

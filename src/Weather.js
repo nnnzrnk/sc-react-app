@@ -4,15 +4,16 @@ import "./Weather.css";
 import axios from "axios";
 import ClockLoader from "react-spinners/ClockLoader";
 import WeatherInfo from "./WeatherInfo";
+import WeatherForecast from "./WeatherForecast";
 
 export default function Weather(props) {
   const [city, setCity] = useState(props.defaultCity);
   const [weather, setWeather] = useState({ ready: false });
 
   function displayWeather(res) {
-    console.log(res.data)
     setWeather({
       ready: true,
+      coordinates: res.data.coordinates,
       temperature: res.data.temperature.current,
       city: res.data.city,
       humidity: res.data.temperature.humidity,
@@ -54,6 +55,7 @@ export default function Weather(props) {
         <div className="line"></div>
 
         <WeatherInfo weather={weather} />
+        <WeatherForecast coordinates={weather.coordinates}/>
 
         <footer>
           <div className="line"></div>
