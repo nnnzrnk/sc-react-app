@@ -27,12 +27,24 @@ export default function Weather(props) {
   function search() {
     let key = "3d051a8309e26fa1a4485c467o137bdt";
     let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${key}`;
-    axios.get(apiUrl).then(displayWeather);
+    axios.get(apiUrl).then((res) => {
+      if (res.data.city) {
+        displayWeather(res);
+      } else {
+        alert("City not found. Please enter a valid city name.");
+      }
+    });
   }
 
   function submitInput(event) {
     event.preventDefault();
-    search();
+    if (/^[a-zA-Z\s]+$/.test(city)) {
+      search();
+    } else {
+      alert(
+        "Please enter a valid city name containing only letters and spaces."
+      );
+    }
   }
 
   function handleInput(event) {
@@ -56,8 +68,7 @@ export default function Weather(props) {
 
         <WeatherInfo weather={weather} />
 
-        <WeatherForecast coordinates={weather.coordinates}/>
-
+        <WeatherForecast coordinates={weather.coordinates} />
 
         <footer>
           <div className="line"></div>
